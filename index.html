@@ -5,13 +5,14 @@
 <title>디룽지 사전</title>
 
 <style>
+/* ===== [기존 스타일 유지] ===== */
 body {
     font-family: "Noto Sans KR", sans-serif;
     margin: 0;
     background:#eef3ef;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* ===== 상단바 ===== */
 header {
     background:#2f4f3f;
     color:white;
@@ -19,20 +20,13 @@ header {
     display:flex;
     justify-content:space-between;
     align-items:center;
+    position: sticky; /* 상단 고정 */
+    top: 0;
+    z-index: 1000;
 }
 
-/* 사이트 제목 */
-.site-title {
-    font-size:24px;
-    font-weight:bold;
-}
-
-/* 상단 버튼 영역 */
-.top-menu {
-    display:flex;
-    gap:12px;
-}
-
+.site-title { font-size:24px; font-weight:bold; }
+.top-menu { display:flex; gap:12px; align-items: center; }
 .top-menu a {
     padding:8px 14px;
     border-radius:7px;
@@ -42,18 +36,23 @@ header {
     font-size:14px;
     transition:0.2s;
 }
+.top-menu a:hover { transform:translateY(-2px); opacity:0.9; }
 
-.top-menu a:hover {
-    transform:translateY(-2px);
-    opacity:0.9;
-}
-
-/* 버튼 색상 */
 .btn-chzzk { background:#00FFA3; color:#003322; }
 .btn-cafe { background:#03C75A; }
 .btn-discord { background:#5865F2; }
 
-/* ===== 소개문 ===== */
+/* [추가] 다크모드 버튼 스타일 */
+#theme-toggle {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
 .intro-banner {
     background:white;
     padding:20px;
@@ -63,12 +62,18 @@ header {
     color:#2f4f3f;
 }
 
-/* ===== 레이아웃 ===== */
-.layout {
-    display:flex;
+/* [추가] 검색창 스타일 */
+.search-container { margin-top: 15px; }
+#search-input {
+    padding: 8px 15px;
+    width: 250px;
+    border-radius: 20px;
+    border: 1px solid #ccd5cc;
+    outline: none;
 }
 
-/* 왼쪽 목차 */
+.layout { display:flex; }
+
 .sidebar {
     width:250px;
     background:#f5f8f5;
@@ -76,7 +81,7 @@ header {
     border-right:1px solid #ccd5cc;
     height:100vh;
     position:sticky;
-    top:0;
+    top:70px;
 }
 
 .sidebar a {
@@ -85,22 +90,17 @@ header {
     text-decoration:none;
     color:#2f4f3f;
     font-weight:bold;
+    transition: 0.3s;
 }
 
-.sidebar a:hover {
-    color:#3c6e57;
+/* [추가] 목차 활성화 스타일 */
+.sidebar a.active {
+    color: #03C75A;
+    transform: translateX(10px);
 }
 
-/* 본문 */
-.content {
-    flex:1;
-    padding:40px;
-}
-
-.section {
-    margin-bottom:60px;
-}
-
+.content { flex:1; padding:40px; }
+.section { margin-bottom:60px; }
 .section h2 {
     border-bottom:2px solid #2f4f3f;
     padding-bottom:5px;
@@ -108,22 +108,32 @@ header {
     color:#2f4f3f;
 }
 
-.entry {
-    margin-bottom:25px;
-    line-height:1.6;
-}
+.entry { margin-bottom:25px; line-height:1.6; }
+.word { font-size:20px; font-weight:bold; color:#2f4f3f; }
+.type { color:#6a7f73; }
 
-.word {
-    font-size:20px;
-    font-weight:bold;
-    color:#2f4f3f;
+/* [추가] 복사 버튼 & 하이라이트 */
+.copy-btn {
+    font-size: 11px;
+    margin-left: 8px;
+    padding: 2px 5px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #333;
 }
+.highlight { background: #ffeb3b; color: #000; }
 
-.type {
-    color:#6a7f73;
-}
+/* [추가] 다크모드 전용 색상 */
+body.dark-mode { background: #1a1a1a; color: #eee; }
+body.dark-mode .intro-banner, body.dark-mode .sidebar { background: #252525; color: #eee; border-color: #444; }
+body.dark-mode .sidebar a { color: #aaa; }
+body.dark-mode .sidebar a.active { color: #00FFA3; }
+body.dark-mode .section h2 { color: #00FFA3; border-color: #00FFA3; }
+body.dark-mode .word { color: #00FFA3; }
+body.dark-mode .copy-btn { background: #333; color: #eee; border-color: #555; }
 
-/* 기여자 */
 .contributors {
     background:#f5f8f5;
     padding:20px;
@@ -131,12 +141,9 @@ header {
     margin-top:50px;
     border:1px solid #ccd5cc;
 }
+body.dark-mode .contributors { background: #252525; border-color: #444; }
 
-footer {
-    text-align:center;
-    padding:20px;
-    color:#5c6f63;
-}
+footer { text-align:center; padding:20px; color:#5c6f63; }
 </style>
 </head>
 
@@ -144,213 +151,181 @@ footer {
 
 <header>
     <div class="site-title">
-    <img src="https://i.postimg.cc/6qTJ1w43/dilungji-logo-3.png" 
-         alt="디룽지 사전 로고"
-         height="40">
-</div>
-
+        <img src="https://i.postimg.cc/6qTJ1w43/dilungji-logo-3.png" alt="디룽지 사전 로고" height="40">
+    </div>
     <div class="top-menu">
-        <a href="https://chzzk.naver.com/6f3f2c8e3b27da8cbb17b84d6c19fe5c" target="_blank" class="btn-chzzk">
-            디룽지 치지직
-        </a>
-
-        <a href="https://cafe.naver.com/diloongzi1102" target="_blank" class="btn-cafe">
-            디룽지 팬카페
-        </a>
-
-        <a href="https://discord.gg/7U4uD4QPu" target="_blank" class="btn-discord">
-            디룽지 팬서버
-        </a>
+        <button id="theme-toggle">모드 전환</button>
+        <a href="https://chzzk.naver.com/6f3f2c8e3b27da8cbb17b84d6c19fe5c" target="_blank" class="btn-chzzk">디룽지 치지직</a>
+        <a href="https://cafe.naver.com/diloongzi1102" target="_blank" class="btn-cafe">디룽지 팬카페</a>
+        <a href="https://discord.gg/7U4uD4QPu" target="_blank" class="btn-discord">디룽지 팬서버</a>
     </div>
 </header>
 
-<!--소개문 -->
 <div class="intro-banner">
     디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 디룽지 시청자분들께서 디룽지의 방송을 더 원활하게 시청하실 수 있게 디룽지 방송의 유행어들을 정리한 사이트입니다.
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="단어 검색...">
+    </div>
 </div>
 
 <div class="layout">
+    <div class="sidebar">
+        <h3 style="color:#2f4f3f;" id="toc-title">목차</h3>
+        <a href="#section-intro" class="toc-link">개요</a>
+        <a href="#section-greeting" class="toc-link">인사법</a>
+        <a href="#section-nickname" class="toc-link">별명</a>
+        <a href="#section-game" class="toc-link">게임</a>
+        <a href="#section-relation" class="toc-link">인물 관계</a>
+        <a href="#section-behavior" class="toc-link">행동 특성</a>
+        <a href="#section-contributors" class="toc-link">기여자</a>
+    </div>
 
-<div class="sidebar">
-<h3 style="color:#2f4f3f;">목차</h3>
-<a href="#intro">개요</a>
-<a href="#intro">인사법</a>
-<a href="#nickname">별명</a>
-<a href="#game">게임</a>
-<a href="#relation">인물 관계</a>
-<a href="#behavior">행동 특성</a>
-<a href="#contributors">기여자</a>
-</div>
+    <div class="content">
+        <div class="section" id="section-intro">
+            <h2>개요</h2>
+            <div class="entry">
+                <span class="word">디룽지</span><button class="copy-btn">복사</button>
+                <div class="type">[명사]</div>
+                <div class="desc"><strong>오버워치</strong>, 종합게임을 주력으로 하는 치지직 스트리머.<br>게임을 못한다고 한다.</div>
+            </div>
+            <div class="entry">
+                <span class="word">룽지</span><button class="copy-btn">복사</button>
+                <div class="type">[명사]</div>
+                <div class="desc">디룽지의 준말.</div>
+            </div>
+            <div class="entry">
+                <span class="word">디룽지^시청자</span><button class="copy-btn">복사</button>
+                <div class="type">[명사]</div>
+                <div class="desc">실질적인 치지직 디룽지 방송의 주인.<br>디룽지가 유기한 유기방송을 살려주는 존재.</div>
+            </div>
+        </div>
 
-<div class="content">
+        <div class="section" id="section-greeting">
+            <h2>인사법</h2>
+            <div class="entry"><span class="word">디하</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지의 방송 인사법.<br><div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div></div></div>
+            <div class="entry"><span class="word">디바</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지의 방종 인사법.<br><div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div></div></div>
+            <div class="entry"><span class="word">똥하</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방송 인사법인 디하를 합쳐 만든 방송 인사법.<br><del>사실상 디룽지 시청자들은 해당 인사법을 디하보다 더 많이 쓴다.</del></div></div>
+            <div class="entry"><span class="word">똥바</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방종 인사법인 디바를 합쳐 만든 방종 인사법.<br><del>사실상 디룽지 시청자들은 해당 인사법을 디바보다 더 많이 쓴다.</del></div></div>
+        </div>
 
-<div class="section" id="intro">
-<h2>개요</h2>
+        <div class="section" id="section-nickname">
+            <h2>별명</h2>
+            <div class="entry"><span class="word">디바룽보</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">어리석고 멍청하거나 못난짓을 하는 디룽지를 욕하거나 비난하여 이르는 말.</div></div>
+            <div class="entry"><span class="word">똥룽지</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">똥과 디룽지의 합성어이며 디룽지를 놀리기 위해 사용되는 별명.</div></div>
+            <div class="entry"><span class="word">똥봉지</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">똥과 봉지의 합성어. 디룽지가 똥을 싸는 봉지를 칭한다.</div></div>
+            <div class="entry"><span class="word">룽덩이</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지의 엉덩이.<br>놀림, 조롱거리 따위로 사용되며 평소 냄새나고 통통한 것으로 묘사됨.</div></div>
+        </div>
 
-<div class="entry">
-<div class="word">디룽지</div>
-<div class="type">[명사]</div>
-<div>
-<strong>오버워치</strong>, 종합게임을 주력으로 하는 치지직 스트리머.<br>
-게임을 못한다고 한다.
-</div>
-</div>
+        <div class="section" id="section-game">
+            <h2>게임</h2>
+            <div class="entry"><span class="word">버스기사</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지의 오버워치 티어를 올려주는 존재.</div></div>
+            <div class="entry"><span class="word">벽수면 땅힐밴</span><button class="copy-btn">복사</button><div class="type">[형용사]</div><div class="desc">오버워치 캐릭터 아나의 스킬인 수면, 힐밴을 적이 아닌 벽 또는 땅에 사용하는 행위.</div></div>
+        </div>
 
-<div class="entry">
-<div class="word">룽지</div>
-<div class="type">[명사]</div>
-<div>디룽지의 준말.</div>
-</div>
+        <div class="section" id="section-relation">
+            <h2>인물 관계</h2>
+            <div class="entry"><span class="word">용복이</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지 피셜 디룽지의 남편.<br>실제 결혼 선언을 한 적이 있다.</div></div>
+            <div class="entry"><span class="word">자듀</span><button class="copy-btn">복사</button><div class="type">[명사]</div><div class="desc">디룽지의 현 여자친구를 칭하는 말.<br><del>이론상 존재할 수 있으나 현실에서 존재할 수 없다.</del></div></div>
+        </div>
 
-<div class="entry">
-<div class="word">디룽지^시청자</div>
-<div class="type">[명사]</div>
-<div>
-실질적인 치지직 디룽지 방송의 주인.<br>
-디룽지가 유기한 유기방송을 살려주는 존재.
-</div>
-</div>
+        <div class="section" id="section-behavior">
+            <h2>행동 특성</h2>
+            <div class="entry"><span class="word">룽룽하다</span><button class="copy-btn">복사</button><div class="type">[형용사]</div><div class="desc">상황 판단 없이 가볍고 둔하게 행동하여, 보는 사람에게 답답함과 허탈감을 유발하는 태도.</div></div>
+        </div>
 
-<div class="section" id="intro">
-<h2>인사법</h2>
-
-<div class="entry">
-<div class="word">디하</div>
-<div class="type">[명사]</div>
-<div>
-디룽지의 방송 인사법.<br>
-<div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
-</div>
-</div>
-
-<div class="entry">
-<div class="word">디바</div>
-<div class="type">[명사]</div>
-<div>
-디룽지의 방종 인사법.<br>
-<div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
-</div>
-</div>
-
-<div class="entry">
-<div class="word">똥하</div>
-<div class="type">[명사]</div>
-<div>
-시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방송 인사법인 디하를 합쳐 만든 방송 인사법.<br>
-<del>사실상 디룽지 시청자들은 해당 인사법을 디하보다 더 많이 쓴다.</del>
-</div>
-</div>
-
-<div class="entry">
-<div class="word">똥바</div>
-<div class="type">[명사]</div>
-<div>
-시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방종 인사법인 디바를 합쳐 만든 방종 인사법.<br>
-<del>사실상 디룽지 시청자들은 해당 인사법을 디바보다 더 많이 쓴다.</del>
-</div>
-</div>
-
-<div class="section" id="nickname">
-<h2>별명</h2>
-
-<div class="entry">
-<div class="word">디바룽보</div>
-<div class="type">[명사]</div>
-<div>어리석고 멍청하거나 못난짓을 하는 디룽지를 욕하거나 비난하여 이르는 말.</div>
-</div>
-
-<div class="entry">
-<div class="word">똥룽지</div>
-<div class="type">[명사]</div>
-<div>똥과 디룽지의 합성어이며 디룽지를 놀리기 위해 사용되는 별명.</div>
-</div>
-
-<div class="entry">
-<div class="word">똥봉지</div>
-<div class="type">[명사]</div>
-<div>똥과 봉지의 합성어. 디룽지가 똥을 싸는 봉지를 칭한다.</div>
-</div>
-
-<div class="entry">
-<div class="word">룽덩이</div>
-<div class="type">[명사]</div>
-<div>
-디룽지의 엉덩이.<br>
-놀림, 조롱거리 따위로 사용되며 평소 냄새나고 통통한 것으로 묘사됨.
-</div>
-</div>
-</div>
-
-<div class="section" id="game">
-<h2>게임</h2>
-
-<div class="entry">
-<div class="word">버스기사</div>
-<div class="type">[명사]</div>
-<div>
-디룽지의 오버워치 티어를 올려주는 존재.
-</div>
-</div>
-
-<div class="entry">
-<div class="word">벽수면 땅힐밴</div>
-<div class="type">[형용사]</div>
-<div>
-오버워치 캐릭터 아나의 스킬인 수면, 힐밴을 적이 아닌 벽 또는 땅에 사용하는 행위.
-</div>
-</div>
-</div>
-
-<div class="section" id="relation">
-<h2>인물 관계</h2>
-
-<div class="entry">
-<div class="word">용복이</div>
-<div class="type">[명사]</div>
-<div>
-디룽지 피셜 디룽지의 남편.<br>
-실제 결혼 선언을 한 적이 있다.
-</div>
-</div>
-
-<div class="entry">
-<div class="word">자듀</div>
-<div class="type">[명사]</div>
-<div>
-디룽지의 현 여자친구를 칭하는 말.<br>
-<del>이론상 존재할 수 있으나 현실에서 존재할 수 없다.</del>
-</div>
-</div>
-</div>
-
-<div class="section" id="behavior">
-<h2>행동 특성</h2>
-
-<div class="entry">
-<div class="word">룽룽하다</div>
-<div class="type">[형용사]</div>
-<div>
-상황 판단 없이 가볍고 둔하게 행동하여, 보는 사람에게 답답함과 허탈감을 유발하는 태도.
-</div>
-</div>
-</div>
-
-<div class="contributors" id="contributors">
-<h2>기여자</h2>
-<p>본 문서는 공동 기여로 작성되었으며. 사이트 코드 작성과 일부 기여는 AI를 인용했습니다.</p>
-<ul>
-<li>RIKI KR - 전체적인 낱말과 설명 제공</li>
-<li>하루 - 사이트 운영 및 일부 낱말 추가 및 수정</li>
-</ul>
-</div>
-
-</div>
+        <div class="contributors" id="section-contributors">
+            <h2>기여자</h2>
+            <p>본 문서는 공동 기여로 작성되었으며. 사이트 코드 작성과 일부 기여는 AI를 인용했습니다.</p>
+            <ul>
+                <li>RIKI KR - 전체적인 낱말과 설명 제공</li>
+                <li>하루 - 사이트 운영 및 일부 낱말 추가 및 수정</li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <footer>
-디룽지 사전 · 공동 제작 문서
+    디룽지 사전 · 공동 제작 문서<br>
+    <small id="last-update"></small>
 </footer>
+
+<script>
+/* 1. 부드러운 스크롤 */
+document.querySelectorAll('.sidebar a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+/* 2. 다크모드 (저장 기능 포함) */
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+if(localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+});
+
+/* 3. 검색 및 하이라이트 */
+const searchInput = document.getElementById('search-input');
+const entries = document.querySelectorAll('.entry');
+
+searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    entries.forEach(entry => {
+        const word = entry.querySelector('.word');
+        const desc = entry.querySelector('.desc');
+        const text = entry.textContent.toLowerCase();
+
+        if(text.includes(query)) {
+            entry.style.display = 'block';
+            if(query.length > 0) {
+                const regex = new RegExp(`(${query})`, 'gi');
+                word.innerHTML = word.textContent.replace(regex, '<span class="highlight">$1</span>');
+                desc.innerHTML = desc.innerHTML.replace(/<span class="highlight">|<\/span>/g, "").replace(regex, '<span class="highlight">$1</span>');
+            } else {
+                word.innerHTML = word.textContent;
+                desc.innerHTML = desc.innerHTML.replace(/<span class="highlight">|<\/span>/g, "");
+            }
+        } else {
+            entry.style.display = 'none';
+        }
+    });
+});
+
+/* 4. 현재 위치 목차 볼드 처리 */
+const sections = document.querySelectorAll('.section, .contributors');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+    let current = "";
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 100) { current = section.getAttribute('id'); }
+    });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
+    });
+});
+
+/* 5. 단어 복사 기능 */
+document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const text = this.previousElementSibling.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = this.textContent;
+            this.textContent = "완료!";
+            setTimeout(() => this.textContent = originalText, 1000);
+        });
+    });
+});
+
+/* 6. 마지막 수정일 표시 */
+document.getElementById('last-update').textContent = "최종 수정일: " + document.lastModified;
+</script>
 
 </body>
 </html>
-
