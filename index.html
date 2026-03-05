@@ -15,9 +15,9 @@
     --border-color: #ccd5cc;
     --header-bg: #2f4f3f;
     --highlight: #ffeb3b;
+    --accent: #03C75A;
 }
 
-/* 다크모드 색상 정의 */
 body.dark-mode {
     --bg-main: #1a1a1a;
     --bg-card: #252525;
@@ -27,6 +27,7 @@ body.dark-mode {
     --border-color: #3d3d3d;
     --header-bg: #000000;
     --highlight: #b8860b;
+    --accent: #00FFA3;
 }
 
 body {
@@ -63,7 +64,6 @@ header {
     transition: 0.2s;
 }
 
-/* 테마 전환 버튼 */
 #theme-toggle {
     background: transparent;
     border: 1px solid white;
@@ -73,9 +73,7 @@ header {
     cursor: pointer;
     font-size: 13px;
     font-weight: bold;
-    transition: 0.2s;
 }
-#theme-toggle:hover { background: rgba(255,255,255,0.1); }
 
 .btn-chzzk { background:#00FFA3; color:#003322 !important; }
 .btn-cafe { background:#03C75A; }
@@ -123,23 +121,22 @@ header {
     opacity: 0.7;
 }
 
-/* 목차 활성화 스타일 */
 .sidebar a.active {
     opacity: 1;
-    color: #03C75A;
+    color: var(--accent);
     transform: translateX(5px);
 }
 
 .content { flex: 1; padding: 40px; }
 
-.section { margin-bottom: 60px; }
+.section { margin-bottom: 80px; }
 .section h2 {
-    border-bottom: 2px solid #2f4f3f;
+    border-bottom: 2px solid var(--header-bg);
     padding-bottom: 5px;
     margin-bottom: 20px;
     color: var(--text-color);
 }
-body.dark-mode .section h2 { border-color: #00FFA3; }
+body.dark-mode .section h2 { border-color: var(--accent); }
 
 /* ===== [사전 항목 스타일] ===== */
 .entry { margin-bottom: 25px; line-height: 1.6; }
@@ -159,13 +156,29 @@ body.dark-mode .section h2 { border-color: #00FFA3; }
 
 .highlight { background: var(--highlight); color: #000; border-radius: 2px; }
 
-.contributors {
+/* ===== [요청 및 기여자 섹션 특수 스타일] ===== */
+.info-box {
     background: var(--bg-sidebar);
     padding: 20px;
     border-radius: 10px;
-    margin-top: 50px;
     border: 1px solid var(--border-color);
+    line-height: 1.8;
 }
+
+.criteria-list { padding-left: 20px; margin-bottom: 20px; }
+.criteria-list li { margin-bottom: 8px; }
+
+.request-link-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: #003322;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+.request-link-btn:hover { filter: brightness(1.1); }
 
 footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 13px; }
 </style>
@@ -186,7 +199,7 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
 </header>
 
 <div class="intro-banner">
-    디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 디룽지 시청자분들께서 디룽지의 방송을 더 원활하게 시청하실 수 있게 디룽지 방송의 유행어들을 정리한 사이트입니다.
+    디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 시청자분들이 방송을 더 즐겁게 보실 수 있도록 유행어를 정리한 곳입니다.
     <div class="search-container">
         <input type="text" id="search-input" placeholder="단어 또는 설명 검색...">
     </div>
@@ -201,6 +214,7 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
         <a href="#game" class="toc-link">게임</a>
         <a href="#relation" class="toc-link">인물 관계</a>
         <a href="#behavior" class="toc-link">행동 특성</a>
+        <a href="#request" class="toc-link">단어 추가 요청</a>
         <a href="#contributors" class="toc-link">기여자</a>
     </div>
 
@@ -257,13 +271,28 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
             <div class="entry"><div class="word-row"><span class="word">룽룽하다</span><button class="copy-btn">복사</button></div><div class="type">[형용사]</div><div class="desc">상황 판단 없이 가볍고 둔하게 행동하여, 보는 사람에게 답답함과 허탈감을 유발하는 태도.</div></div>
         </div>
 
-        <div class="contributors" id="contributors">
+        <div class="section" id="request">
+            <h2>단어 추가 요청 및 기준</h2>
+            <div class="info-box">
+                <p>디룽지 사전에 새로운 단어를 추가하고 싶으신가요? 아래 <strong>등재 기준</strong>을 확인하신 후 요청해 주세요!</p>
+                <ul class="criteria-list">
+                    <li><strong>대중성:</strong> 방송에서 자주 쓰이는 단어여야 합니다.</li>
+                    <li><strong>독창성:</strong> 디룽지 방송만의 고유한 맥락이나 의미를 담고 있어야 합니다.</li>
+                    <li><strong>금지 사항:</strong> 디룽지님이 금지하신 단어는 추가가 불가능 합니다.</li>
+                </ul>
+                <a href="https://cafe.naver.com/diloongzi1102/278" target="_blank" class="request-link-btn">글 댓글로 단어 추가 요청하기 (디룽지 팬카페 글)</a>
+            </div>
+        </div>
+
+        <div class="contributors section" id="contributors">
             <h2>기여자</h2>
-            <p>본 문서는 공동 기여로 작성되었으며. 사이트 코드 작성과 일부 기여는 AI를 인용했습니다.</p>
-            <ul>
-                <li>RIKI KR - 전체적인 낱말과 설명 제공</li>
-                <li>하루 - 사이트 운영 및 일부 낱말 추가 및 수정</li>
-            </ul>
+            <div class="info-box">
+                <p>본 문서는 공동 기여로 작성되었으며. 사이트 코드 작성과 일부 기여는 AI를 인용했습니다.</p>
+                <ul>
+                    <li>RIKI KR - 전체적인 낱말과 설명 제공</li>
+                    <li>하루 - 사이트 운영 및 일부 낱말 추가 및 수정</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -277,16 +306,11 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
 /* 1. 테마 토글 */
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
-
 function updateThemeButton() {
     themeToggle.textContent = body.classList.contains('dark-mode') ? '라이트모드' : '다크모드';
 }
-
-if (localStorage.getItem('theme') === 'dark') {
-    body.classList.add('dark-mode');
-}
+if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
 updateThemeButton();
-
 themeToggle.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
@@ -294,76 +318,57 @@ themeToggle.addEventListener('click', () => {
 });
 
 /* 2. 복사 기능 */
-document.addEventListener('click', function (e) {
+document.addEventListener('click', e => {
     if (e.target.classList.contains('copy-btn')) {
-        const btn = e.target;
-        const text = btn.previousElementSibling.textContent;
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            const originalText = btn.textContent;
-            btn.textContent = "완료!";
-            setTimeout(() => btn.textContent = originalText, 1000);
-        } catch (err) {
-            alert('복사 실패');
-        }
-        document.body.removeChild(textArea);
+        const text = e.target.previousElementSibling.textContent;
+        const el = document.createElement("textarea");
+        el.value = text; document.body.appendChild(el); el.select();
+        document.execCommand('copy'); document.body.removeChild(el);
+        const old = e.target.textContent; e.target.textContent = "완료!";
+        setTimeout(() => e.target.textContent = old, 1000);
     }
 });
 
-/* 3 & 5. 목차 제어 (클릭 강조 + 스크롤 보정) */
-const sections = document.querySelectorAll('.section, .contributors');
+/* 3. 목차 제어 (정교한 스크롤 스파이) */
+const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.toc-link');
-let isScrolling = false; // 클릭 이동 중에는 스크롤 이벤트를 잠시 무시하기 위한 변수
+let isManualScrolling = false;
 
 navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
-        isScrolling = true; // 클릭으로 인한 이동 시작
-        
-        // 클릭 즉시 강조
+        isManualScrolling = true;
         navLinks.forEach(l => l.classList.remove('active'));
         this.classList.add('active');
-        
         const target = document.querySelector(this.getAttribute('href'));
-        window.scrollTo({ 
-            top: target.offsetTop - 80, 
-            behavior: 'smooth' 
-        });
-
-        // 이동이 끝날 때쯤 다시 스크롤 감지 활성화
-        setTimeout(() => { isScrolling = false; }, 800);
+        window.scrollTo({ top: target.offsetTop - 85, behavior: 'smooth' });
+        setTimeout(() => { isManualScrolling = false; }, 800);
     });
 });
 
 window.addEventListener('scroll', () => {
-    if (isScrolling) return; // 클릭 이동 중이면 스크롤 강조 로직 건너뜀
-
+    if (isManualScrolling) return;
     let current = "";
-    // 바닥 체크: 스크롤이 끝까지 내려갔다면 마지막 항목 강제 강조
-    const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
+    const scrollPos = window.scrollY + (window.innerHeight / 2.2); // 감지 지점 최적화
 
-    if (isAtBottom) {
-        current = sections[sections.length - 1].getAttribute('id');
-    } else {
-        sections.forEach(s => {
-            if (pageYOffset >= s.offsetTop - 120) current = s.getAttribute('id');
-        });
-    }
+    sections.forEach(s => {
+        if (scrollPos >= s.offsetTop) {
+            current = s.getAttribute('id');
+        }
+    });
+
+    const isBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20;
+    if (isBottom) current = "contributors";
 
     navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('href').includes(current)) link.classList.add('active');
+        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
     });
 });
 
 /* 4. 실시간 검색 */
 const searchInput = document.getElementById('search-input');
 const entries = document.querySelectorAll('.entry');
-
 searchInput.addEventListener('input', function() {
     const q = this.value.toLowerCase();
     entries.forEach(entry => {
@@ -371,25 +376,19 @@ searchInput.addEventListener('input', function() {
         const descBox = entry.querySelector('.desc');
         if(!wordBox.dataset.origin) wordBox.dataset.origin = wordBox.innerHTML;
         if(!descBox.dataset.origin) descBox.dataset.origin = descBox.innerHTML;
-
-        const fullText = entry.textContent.toLowerCase();
-        if(fullText.includes(q)) {
+        if(entry.textContent.toLowerCase().includes(q)) {
             entry.style.display = 'block';
             if(q !== "") {
                 const regex = new RegExp(`(${q})`, 'gi');
                 wordBox.innerHTML = wordBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
                 descBox.innerHTML = descBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
             } else {
-                wordBox.innerHTML = wordBox.dataset.origin;
-                descBox.innerHTML = descBox.dataset.origin;
+                wordBox.innerHTML = wordBox.dataset.origin; descBox.innerHTML = descBox.dataset.origin;
             }
-        } else {
-            entry.style.display = 'none';
-        }
+        } else { entry.style.display = 'none'; }
     });
 });
 
-/* 6. 최종 수정일 */
 document.getElementById('update-date').textContent = "최종 수정일: " + document.lastModified;
 </script>
 
