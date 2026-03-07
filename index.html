@@ -308,9 +308,20 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
             <div class="entry">
                 <div class="word-row"><span class="word">디룽지^시청자</span><button class="copy-btn">복사</button></div>
                 <div class="type">[명사]</div>
-                <div class="desc">실질적인 치지직 디룽지 방송의 주인.<br>디룽지가 유기한 유기방송을 살려주는 존재.</div>
+                <div class="desc">실질적인 치지직 디룽지 방송의 주인.<br>디룽지가 유기한 유기방송을 살려주는 존재.<br>사용 빈도가 매우 낮은 단어이다.</div>
             </div>
-        </div>
+            <div class="entry">
+                <div class="word-row"><span class="word">룽덩이^골짜기^주민</span><button class="copy-btn">복사</button></div>
+                <div class="type">[명사]</div>
+                <div class="desc">디룽지 시청자와 동의어인 단어.<br>룽덩이골(룽덩이의 파생어), 골짜기, 주민의 합성어<br>디룽지 시청자 보다 사용 빈도가 더 높다.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row"><span class="word">룽골주</span><button class="copy-btn">복사</button></div>
+                <div class="type">[명사]</div>
+                <div class="desc">룽덩이 골짜기 주민의 준말.</div>
+            </div>
+        </div>           
 
         <div class="section" id="greeting">
             <h2>인사법</h2>
@@ -394,11 +405,18 @@ themeToggle.addEventListener('click', () => {
 /* 2. 복사 기능 */
 document.addEventListener('click', e => {
     if (e.target.classList.contains('copy-btn')) {
-        const text = e.target.previousElementSibling.textContent;
+
+        const text = e.target.previousElementSibling.textContent.replace(/\^/g, " ");
+
         const el = document.createElement("textarea");
-        el.value = text; document.body.appendChild(el); el.select();
-        document.execCommand('copy'); document.body.removeChild(el);
-        const old = e.target.textContent; e.target.textContent = "완료!";
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        const old = e.target.textContent;
+        e.target.textContent = "완료!";
         setTimeout(() => e.target.textContent = old, 1000);
     }
 });
@@ -461,17 +479,18 @@ searchInput.addEventListener('input', function() {
             visibleCount++;
 
             if(q !== "") {
-                const regex = new RegExp(`(${q})`, 'gi');
-                wordBox.innerHTML = wordBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
-                descBox.innerHTML = descBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
-            } else {
-                wordBox.innerHTML = wordBox.dataset.origin;
-                descBox.innerHTML = descBox.dataset.origin;
-            }
-        } else {
-            entry.style.display = 'none';
-        }
-    });
+    const safeQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${safeQuery})`, 'gi');
+    wordBox.innerHTML = wordBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
+    descBox.innerHTML = descBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
+} else {
+    wordBox.innerHTML = wordBox.dataset.origin;
+    descBox.innerHTML = descBox.dataset.origin;
+}
+} else {
+    entry.style.display = 'none';
+}
+});
 
     // 단어 개수 표시 업데이트
     if (q === "") {
@@ -496,4 +515,3 @@ document.getElementById('update-date').textContent = "최종 수정일: " + docu
 
 </body>
 </html>
-
