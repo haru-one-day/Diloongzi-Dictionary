@@ -68,7 +68,7 @@ header {
     background: transparent;
     border: 1px solid white;
     color: white;
-    padding: 6px 12px;
+    padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
@@ -181,6 +181,73 @@ body.dark-mode .section h2 { border-color: var(--accent); }
 .request-link-btn:hover { filter: brightness(1.1); }
 
 footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 13px; }
+
+/* ===== [추가된 기능 스타일 - 디자인 변경 없이 최소한만] ===== */
+#word-count {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-sub);
+    font-weight: 500;
+}
+
+#no-results {
+    display: none;
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-sub);
+}
+
+#no-results.show {
+    display: block;
+}
+
+#no-results .icon {
+    font-size: 120px;
+    margin-bottom: 20px;
+    opacity: 0.75;
+}
+
+#no-results p {
+    font-size: 19px;
+    line-height: 1.6;
+}
+
+/* ===== [모바일 반응형 - PC는 기존 스타일 그대로, 모바일만 비율 조정] ===== */
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 20px;
+    }
+    .content {
+        padding: 25px 20px;
+    }
+    #search-input {
+        width: 100%;
+        max-width: none;
+    }
+    .intro-banner {
+        padding: 20px;
+    }
+    .section {
+        margin-bottom: 60px;
+    }
+    header {
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .top-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
 </style>
 </head>
 
@@ -202,6 +269,7 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
     디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 시청자분들이 방송을 더 즐겁게 보실 수 있도록 유행어를 정리한 곳입니다.
     <div class="search-container">
         <input type="text" id="search-input" placeholder="단어 또는 설명 검색...">
+        <div id="word-count">총 <span id="count-num">16</span>개 단어</div>
     </div>
 </div>
 
@@ -219,6 +287,12 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
     </div>
 
     <div class="content">
+        <!-- 검색 결과 없음 메시지 (기능 추가) -->
+        <div id="no-results">
+            <div class="icon">🔍</div>
+            <p>검색 결과가 없습니다.<br>혹시.. 지금 <strong>룽룽하신가요?</strong></p>
+        </div>
+
         <div class="section" id="intro">
             <h2>개요</h2>
             <div class="entry">
@@ -349,7 +423,7 @@ navLinks.forEach(link => {
 window.addEventListener('scroll', () => {
     if (isManualScrolling) return;
     let current = "";
-    const scrollPos = window.scrollY + (window.innerHeight / 2.2); // 감지 지점 최적화
+    const scrollPos = window.scrollY + (window.innerHeight / 2.2);
 
     sections.forEach(s => {
         if (scrollPos >= s.offsetTop) {
@@ -366,28 +440,56 @@ window.addEventListener('scroll', () => {
     });
 });
 
-/* 4. 실시간 검색 */
+/* 4. 실시간 검색 + 단어 개수 + 검색 결과 없음 (기능 추가) */
 const searchInput = document.getElementById('search-input');
 const entries = document.querySelectorAll('.entry');
+const wordCountDiv = document.getElementById('word-count');
+const noResults = document.getElementById('no-results');
+
 searchInput.addEventListener('input', function() {
-    const q = this.value.toLowerCase();
+    const q = this.value.toLowerCase().trim();
+    let visibleCount = 0;
+
     entries.forEach(entry => {
         const wordBox = entry.querySelector('.word');
         const descBox = entry.querySelector('.desc');
         if(!wordBox.dataset.origin) wordBox.dataset.origin = wordBox.innerHTML;
         if(!descBox.dataset.origin) descBox.dataset.origin = descBox.innerHTML;
-        if(entry.textContent.toLowerCase().includes(q)) {
+
+        if (entry.textContent.toLowerCase().includes(q) || q === "") {
             entry.style.display = 'block';
+            visibleCount++;
+
             if(q !== "") {
                 const regex = new RegExp(`(${q})`, 'gi');
                 wordBox.innerHTML = wordBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
                 descBox.innerHTML = descBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
             } else {
-                wordBox.innerHTML = wordBox.dataset.origin; descBox.innerHTML = descBox.dataset.origin;
+                wordBox.innerHTML = wordBox.dataset.origin;
+                descBox.innerHTML = descBox.dataset.origin;
             }
-        } else { entry.style.display = 'none'; }
+        } else {
+            entry.style.display = 'none';
+        }
     });
+
+    // 단어 개수 표시 업데이트
+    if (q === "") {
+        wordCountDiv.innerHTML = `총 <span id="count-num">${visibleCount}</span>개 단어`;
+    } else {
+        wordCountDiv.innerHTML = `검색 결과 <span id="count-num">${visibleCount}</span>개`;
+    }
+
+    // 검색 결과 없음 메시지
+    if (visibleCount === 0 && q !== "") {
+        noResults.classList.add('show');
+    } else {
+        noResults.classList.remove('show');
+    }
 });
+
+/* 초기 단어 개수 설정 */
+wordCountDiv.innerHTML = `총 <span id="count-num">${entries.length}</span>개 단어`;
 
 document.getElementById('update-date').textContent = "최종 수정일: " + document.lastModified;
 </script>
