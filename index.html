@@ -2,280 +2,582 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>디룽지 사전</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== [기본 스타일 및 테마 변수] ===== */
+/* ===== [CSS Variables] ===== */
 :root {
-    --bg-main: #eef3ef;
+    --bg: #eef4ee;
     --bg-card: #ffffff;
-    --bg-sidebar: #f5f8f5;
-    --text-color: #2f4f3f;
-    --text-sub: #6a7f73;
-    --border-color: #ccd5cc;
-    --header-bg: #2f4f3f;
-    --highlight: #ffeb3b;
-    --accent: #03C75A;
+    --bg-sidebar: #f2f7f2;
+    --surface: #e4ede4;
+    --text: #0d1f0f;
+    --text-mid: #2a4a2e;
+    --text-muted: #5a7a5e;
+    --border: #c0d4c0;
+    --header-bg: #1a3a20;
+    --accent: #2d6e3a;
+    --accent-light: #4a9a5a;
+    --accent-green: #2a7a4a;
+    --accent-blue: #2a4a8a;
+    --accent-red: #c82a2a;
+    --highlight: #d4f0d4;
+    --highlight-text: #0d3a10;
+    --rule-color: #1a3a20;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Noto Serif KR', serif;
+    --sans: 'Gowun Dodum', sans-serif;
+    --shadow: 0 2px 16px rgba(13,31,15,0.07);
+    --shadow-hover: 0 8px 32px rgba(13,31,15,0.14);
 }
 
-body.dark-mode {
-    --bg-main: #1a1a1a;
-    --bg-card: #252525;
-    --bg-sidebar: #1e1e1e;
-    --text-color: #e0e0e0;
-    --text-sub: #a0a0a0;
-    --border-color: #3d3d3d;
-    --header-bg: #000000;
-    --highlight: #b8860b;
-    --accent: #00FFA3;
+body.dark {
+    --bg: #0a100b;
+    --bg-card: #101810;
+    --bg-sidebar: #0d150e;
+    --surface: #152018;
+    --text: #d8f0da;
+    --text-mid: #9abca0;
+    --text-muted: #537a58;
+    --border: #1e3422;
+    --header-bg: #050d06;
+    --accent: #4aaa5a;
+    --accent-light: #6acc7a;
+    --accent-green: #3a9a5a;
+    --accent-blue: #4a6ac0;
+    --accent-red: #e04040;
+    --highlight: #0d2e10;
+    --highlight-text: #a0f0a8;
+    --rule-color: #4aaa5a;
+    --shadow: 0 2px 16px rgba(0,0,0,0.4);
+    --shadow-hover: 0 8px 32px rgba(0,0,0,0.6);
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: "Noto Sans KR", sans-serif;
-    margin: 0;
-    background: var(--bg-main);
-    color: var(--text-color);
-    transition: background 0.3s, color 0.3s;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.35s, color 0.35s;
+    min-height: 100vh;
 }
 
-/* ===== [상단바] ===== */
+/* ===== [Header] ===== */
 header {
     background: var(--header-bg);
-    color: white;
-    padding: 15px 25px;
+    padding: 0 32px;
+    height: 64px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom: 2px solid var(--accent);
 }
 
-.site-title { font-size: 24px; font-weight: bold; }
-
-.top-menu { display: flex; gap: 12px; align-items: center; }
-.top-menu a {
-    padding: 8px 14px;
-    border-radius: 7px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    transition: 0.2s;
+.site-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-#theme-toggle {
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
+.site-brand img { height: 36px; object-fit: contain; }
+
+.top-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-family: var(--sans);
     font-size: 13px;
-    font-weight: bold;
-}
-
-.btn-chzzk { background:#00FFA3; color:#003322 !important; }
-.btn-cafe { background:#03C75A; }
-.btn-discord { background:#5865F2; }
-
-/* ===== [레이아웃] ===== */
-.intro-banner {
-    background: var(--bg-card);
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 15px;
-}
-
-.search-container { margin-top: 15px; }
-#search-input {
-    padding: 8px 15px;
-    width: 250px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-sidebar);
-    color: var(--text-color);
-    outline: none;
-}
-
-.layout { display: flex; }
-
-.sidebar {
-    width: 250px;
-    background: var(--bg-sidebar);
-    padding: 20px;
-    border-right: 1px solid var(--border-color);
-    height: 100vh;
-    position: sticky;
-    top: 70px;
-}
-
-.sidebar a {
-    display: block;
-    margin: 8px 0;
+    font-weight: 600;
     text-decoration: none;
-    color: var(--text-color);
-    font-weight: bold;
-    transition: 0.2s;
-    opacity: 0.7;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.15s;
+    white-space: nowrap;
 }
 
-.sidebar a.active {
-    opacity: 1;
+.nav-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.nav-btn:active { transform: translateY(0); }
+
+.btn-theme {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    padding: 0 12px;
+    height: 35px;
+    line-height: 35px;
+}
+
+.btn-chzzk { background: #00e58a; color: #003322 !important; }
+.btn-youtube { background: #ff0000; color: white !important; }
+.btn-cafe { background: #03c75a; }
+.btn-discord { background: #5865f2; }
+
+/* ===== [Banner] ===== */
+.banner {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.banner-text {
+    font-family: var(--serif);
+    color: var(--text-mid);
+    font-size: 14.5px;
+    text-align: center;
+    line-height: 1.7;
+    max-width: 560px;
+}
+
+.search-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 15px;
+    pointer-events: none;
+}
+
+#search-input {
+    width: 100%;
+    padding: 11px 18px 11px 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,110,58,0.15);
+}
+
+#search-input::placeholder { color: var(--text-muted); }
+
+.word-count {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+}
+
+/* ===== [Layout] ===== */
+.layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 0;
+}
+
+/* ===== [Sidebar] ===== */
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 32px 20px;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+}
+
+.sidebar-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.toc-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color 0.2s, background 0.2s, transform 0.2s;
+    margin-bottom: 2px;
+}
+
+.toc-link::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+    transition: width 0.2s, height 0.2s;
+}
+
+.toc-link:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.toc-link.active {
     color: var(--accent);
-    transform: translateX(5px);
+    background: rgba(45,110,58,0.08);
+    font-weight: 700;
 }
 
-.content { flex: 1; padding: 40px; }
-
-.section { margin-bottom: 80px; }
-.section h2 {
-    border-bottom: 2px solid var(--header-bg);
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-    color: var(--text-color);
+.toc-link.active::before {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
 }
-body.dark-mode .section h2 { border-color: var(--accent); }
 
-/* ===== [사전 항목 스타일] ===== */
-.entry { margin-bottom: 25px; line-height: 1.6; }
-.word-row { display: flex; align-items: center; gap: 10px; }
-.word { font-size: 20px; font-weight: bold; color: var(--text-color); }
-.type { color: var(--text-sub); }
+/* ===== [Content] ===== */
+.content {
+    flex: 1;
+    padding: 48px 48px 80px;
+    min-width: 0;
+}
+
+/* ===== [Section] ===== */
+.section {
+    margin-bottom: 72px;
+    animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--rule-color);
+}
+
+.section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    background: rgba(45,110,58,0.1);
+    border-radius: 4px;
+}
+
+.section-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* ===== [Entry Card] ===== */
+.entry {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--border);
+    transition: background 0.2s;
+}
+
+.entry:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+    transform: translateX(3px);
+}
+
+.entry:hover::before {
+    background: var(--accent);
+}
+
+.word-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.word {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.type-badge {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(45,110,58,0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+}
 
 .copy-btn {
+    margin-left: auto;
     font-size: 11px;
-    padding: 2px 6px;
+    font-family: var(--mono);
+    padding: 3px 10px;
     cursor: pointer;
-    background: var(--bg-sidebar);
-    border: 1px solid var(--border-color);
+    background: transparent;
+    border: 1px solid var(--border);
     border-radius: 4px;
-    color: var(--text-color);
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    flex-shrink: 0;
 }
 
-.highlight { background: var(--highlight); color: #000; border-radius: 2px; }
+.copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(45,110,58,0.07);
+}
 
-/* ===== [요청 및 기여자 섹션 특수 스타일] ===== */
+.copy-btn.done {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    background: rgba(42,122,74,0.07);
+}
+
+.desc {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text-mid);
+    font-family: var(--sans);
+    padding-top: 4px;
+}
+
+.desc strong { color: var(--text); font-weight: 700; }
+.desc del { opacity: 0.55; }
+
+.highlight {
+    background: var(--highlight);
+    color: var(--highlight-text);
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+/* ===== [Info Box] ===== */
 .info-box {
-    background: var(--bg-sidebar);
-    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 10px;
-    border: 1px solid var(--border-color);
+    padding: 28px 32px;
     line-height: 1.8;
 }
 
-.criteria-list { padding-left: 20px; margin-bottom: 20px; }
-.criteria-list li { margin-bottom: 8px; }
-
-.request-link-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--accent);
-    color: #003322;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: 0.2s;
+.info-box p {
+    color: var(--text-mid);
+    font-size: 14.5px;
+    margin-bottom: 18px;
 }
-.request-link-btn:hover { filter: brightness(1.1); }
 
-footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 13px; }
-
-/* ===== [추가된 기능 스타일 - 디자인 변경 없이 최소한만] ===== */
-#word-count {
-    margin-top: 10px;
+.criteria-list {
+    padding-left: 20px;
+    margin-bottom: 24px;
+    color: var(--text-mid);
     font-size: 14px;
-    color: var(--text-sub);
-    font-weight: 500;
 }
 
+.criteria-list li { margin-bottom: 8px; }
+.criteria-list strong { color: var(--text); }
+
+.info-box ul {
+    padding-left: 20px;
+    color: var(--text-mid);
+    font-size: 14px;
+}
+
+.info-box ul li { margin-bottom: 6px; }
+
+.request-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: filter 0.2s, transform 0.15s;
+}
+
+.request-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+/* ===== [No Results] ===== */
 #no-results {
     display: none;
     text-align: center;
-    padding: 80px 20px;
-    color: var(--text-sub);
+    padding: 100px 20px;
+    color: var(--text-muted);
 }
 
-#no-results.show {
-    display: block;
-}
+#no-results.show { display: block; }
 
-#no-results .icon {
-    font-size: 120px;
-    margin-bottom: 20px;
-    opacity: 0.75;
-}
+#no-results .icon { font-size: 80px; margin-bottom: 20px; }
 
 #no-results p {
-    font-size: 19px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.7;
+    font-family: var(--serif);
 }
 
-/* ===== [모바일 반응형 - PC는 기존 스타일 그대로, 모바일만 비율 조정] ===== */
+#no-results strong { color: var(--accent); }
+
+/* ===== [Footer] ===== */
+footer {
+    background: var(--header-bg);
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 12px;
+    font-family: var(--mono);
+    line-height: 2;
+    border-top: 2px solid var(--accent);
+}
+
+/* ===== [Scrollbar] ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ===== [Mobile] ===== */
 @media (max-width: 768px) {
-    .layout {
+    header {
+        padding: 0 16px;
+        height: auto;
         flex-direction: column;
+        gap: 10px;
+        padding: 14px 16px;
     }
+
+    .top-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .nav-btn { font-size: 12px; padding: 6px 11px; }
+
+    .layout { flex-direction: column; }
+
     .sidebar {
         width: 100%;
         height: auto;
         position: static;
         border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        padding: 20px;
-    }
-    .content {
-        padding: 25px 20px;
-    }
-    #search-input {
-        width: 100%;
-        max-width: none;
-    }
-    .intro-banner {
-        padding: 20px;
-    }
-    .section {
-        margin-bottom: 60px;
-    }
-    header {
-        padding: 15px;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .top-menu {
+        border-bottom: 1px solid var(--border);
+        padding: 16px;
+        display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        gap: 4px;
+        align-items: center;
     }
+
+    .sidebar-title { width: 100%; margin-bottom: 8px; }
+
+    .toc-link { padding: 5px 10px; font-size: 12px; margin-bottom: 0; }
+
+    .content { padding: 28px 20px 60px; }
+
+    .section-title { font-size: 18px; }
+
+    .entry { padding: 16px 18px; }
+
+    .banner { padding: 20px 16px; }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-    <div class="site-title">
-        <img src="https://i.postimg.cc/6qTJ1w43/dilungji-logo-3.png" alt="디룽지 사전 로고" height="40">
+    <div class="site-brand">
+        <img src="https://i.postimg.cc/6qTJ1w43/dilungji-logo-3.png" alt="디룽지 사전">
     </div>
-    <div class="top-menu">
-        <button id="theme-toggle">다크모드</button>
-        <a href="https://chzzk.naver.com/6f3f2c8e3b27da8cbb17b84d6c19fe5c" target="_blank" class="btn-chzzk">디룽지 치지직</a>
-        <a href="https://cafe.naver.com/diloongzi1102" target="_blank" class="btn-cafe">팬카페</a>
-        <a href="https://discord.gg/7U4uD4QPu" target="_blank" class="btn-discord">팬서버</a>
-    </div>
+    <nav class="top-nav">
+        <button id="theme-toggle" class="nav-btn btn-theme">🌙</button>
+        <a href="https://chzzk.naver.com/6f3f2c8e3b27da8cbb17b84d6c19fe5c" target="_blank" class="nav-btn btn-chzzk">디룽지 치지직</a>
+        <a href="https://www.youtube.com/@diloongzi" target="_blank" class="nav-btn btn-youtube">디룽지 유튜브</a>
+        <a href="https://cafe.naver.com/diloongzi1102" target="_blank" class="nav-btn btn-cafe">디룽지 팬카페</a>
+        <a href="https://discord.gg/7U4uD4QPu" target="_blank" class="nav-btn btn-discord">디룽지 팬서버</a>
+    </nav>
 </header>
 
-<div class="intro-banner">
-    디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 시청자분들이 방송을 더 즐겁게 보실 수 있도록 유행어를 정리한 곳입니다.
-    <div class="search-container">
+<div class="banner">
+    <p class="banner-text">디룽지 사전에 오신 것을 환영합니다! 디룽지 사전은 시청자분들이 방송을 더 즐겁게 보실 수 있도록 유행어를 정리한 곳입니다.</p>
+    <div class="search-wrap">
+        <span class="search-icon">🔍</span>
         <input type="text" id="search-input" placeholder="단어 또는 설명 검색...">
-        <div id="word-count">총 <span id="count-num">16</span>개 단어</div>
     </div>
+    <div class="word-count" id="word-count">총 <strong id="count-num">16</strong>개 단어</div>
 </div>
 
 <div class="layout">
-    <div class="sidebar">
-        <h3 style="color:var(--text-color);">목차</h3>
+    <aside class="sidebar">
+        <div class="sidebar-title">목차</div>
         <a href="#intro" class="toc-link">개요</a>
         <a href="#greeting" class="toc-link">인사법</a>
         <a href="#nickname" class="toc-link">별명</a>
@@ -284,80 +586,230 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
         <a href="#behavior" class="toc-link">행동 특성</a>
         <a href="#request" class="toc-link">단어 추가 요청</a>
         <a href="#contributors" class="toc-link">기여자</a>
-    </div>
+    </aside>
 
-    <div class="content">
-        <!-- 검색 결과 없음 메시지 (기능 추가) -->
+    <main class="content">
         <div id="no-results">
             <div class="icon">🔍</div>
             <p>검색 결과가 없습니다.<br>혹시.. 지금 <strong>룽룽하신가요?</strong></p>
         </div>
 
-        <div class="section" id="intro">
-            <h2>개요</h2>
+        <!-- 개요 -->
+        <section class="section" id="intro">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <h2 class="section-title">개요</h2>
+            </div>
+
             <div class="entry">
-                <div class="word-row"><span class="word">디룽지</span><button class="copy-btn">복사</button></div>
-                <div class="type">[명사]</div>
+                <div class="word-row">
+                    <span class="word">디룽지</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
                 <div class="desc"><strong>오버워치</strong>, 종합게임을 주력으로 하는 치지직 스트리머.<br>게임을 못한다고 한다.</div>
             </div>
+
             <div class="entry">
-                <div class="word-row"><span class="word">룽지</span><button class="copy-btn">복사</button></div>
-                <div class="type">[명사]</div>
+                <div class="word-row">
+                    <span class="word">룽지</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
                 <div class="desc">디룽지의 준말.</div>
             </div>
+
             <div class="entry">
-                <div class="word-row"><span class="word">디룽지^시청자</span><button class="copy-btn">복사</button></div>
-                <div class="type">[명사]</div>
+                <div class="word-row">
+                    <span class="word">디룽지^시청자</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
                 <div class="desc">실질적인 치지직 디룽지 방송의 주인.<br>디룽지가 유기한 유기방송을 살려주는 존재.<br>사용 빈도가 매우 낮은 단어이다.</div>
             </div>
+
             <div class="entry">
-                <div class="word-row"><span class="word">룽덩이^골짜기^주민</span><button class="copy-btn">복사</button></div>
-                <div class="type">[명사]</div>
+                <div class="word-row">
+                    <span class="word">룽덩이^골짜기^주민</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
                 <div class="desc">디룽지 시청자와 동의어인 단어.<br>룽덩이골(룽덩이의 파생어), 골짜기, 주민의 합성어<br>디룽지 시청자 보다 사용 빈도가 더 높다.</div>
             </div>
 
             <div class="entry">
-                <div class="word-row"><span class="word">룽골주</span><button class="copy-btn">복사</button></div>
-                <div class="type">[명사]</div>
+                <div class="word-row">
+                    <span class="word">룽골주</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
                 <div class="desc">룽덩이 골짜기 주민의 준말.</div>
             </div>
-        </div>           
+        </section>
 
-        <div class="section" id="greeting">
-            <h2>인사법</h2>
-            <div class="entry"><div class="word-row"><span class="word">디하</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지의 방송 인사법.<br><div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div></div></div>
-            <div class="entry"><div class="word-row"><span class="word">디바</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지의 방종 인사법.<br><div>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div></div></div>
-            <div class="entry"><div class="word-row"><span class="word">똥하</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방송 인사법인 디하를 합쳐 만든 방송 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디하보다 더 많이 쓴다.<br>변하, 끙하 등의 온갇 비슷한 단어들이 생겨났다.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">똥바</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방종 인사법인 디바를 합쳐 만든 방종 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디바보다 더 많이 쓴다.<br>변바, 끙바 등의 온갇 비슷한 단어들이 생겨났다.</div></div>
-        </div>
+        <!-- 인사법 -->
+        <section class="section" id="greeting">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <h2 class="section-title">인사법</h2>
+            </div>
 
-        <div class="section" id="nickname">
-            <h2>별명</h2>
-            <div class="entry"><div class="word-row"><span class="word">디바룽보</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">어리석고 멍청하거나 못난짓을 하는 디룽지를 욕하거나 비난하여 이르는 말.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">똥룽지</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">똥과 디룽지의 합성어이며 디룽지를 놀리기 위해 사용되는 별명.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">똥봉지</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">똥과 봉지의 합성어. 디룽지가 똥을 싸는 봉지를 칭한다.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">룽덩이</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지의 엉덩이.<br>놀림, 조롱거리 따위로 사용되며 평소 냄새나고 통통한 것으로 묘사됨.</div></div>
-        </div>
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">디하</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지의 방송 인사법.<br>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
+            </div>
 
-        <div class="section" id="game">
-            <h2>게임</h2>
-            <div class="entry"><div class="word-row"><span class="word">버스^기사</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지의 오버워치 티어를 올려주는 존재.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">벽수면^땅힐밴</span><button class="copy-btn">복사</button></div><div class="type">[형용사]</div><div class="desc">오버워치 캐릭터 아나의 스킬인 수면, 힐밴을 적이 아닌 벽 또는 땅에 사용하는 행위.</div></div>
-        </div>
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">디바</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지의 방종 인사법.<br>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
+            </div>
 
-        <div class="section" id="relation">
-            <h2>인물 관계</h2>
-            <div class="entry"><div class="word-row"><span class="word">용복이</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지 피셜 디룽지의 남편.<br>실제 결혼 선언을 한 적이 있다.</div></div>
-            <div class="entry"><div class="word-row"><span class="word">자듀</span><button class="copy-btn">복사</button></div><div class="type">[명사]</div><div class="desc">디룽지의 현 여자친구를 칭하는 말.<br><del>이론상 존재할 수 있으나 현실에서 존재할 수 없다.</del></div></div>
-        </div>
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">똥하</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방송 인사법인 디하를 합쳐 만든 방송 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디하보다 더 많이 쓴다.<br>변하, 끙하 등의 온갇 비슷한 단어들이 생겨났다.</div>
+            </div>
 
-        <div class="section" id="behavior">
-            <h2>행동 특성</h2>
-            <div class="entry"><div class="word-row"><span class="word">룽룽하다</span><button class="copy-btn">복사</button></div><div class="type">[형용사]</div><div class="desc">상황 판단 없이 가볍고 둔하게 행동하여, 보는 사람에게 답답함과 허탈감을 유발하는 태도.</div></div>
-        </div>
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">똥바</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방종 인사법인 디바를 합쳐 만든 방종 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디바보다 더 많이 쓴다.<br>변바, 끙바 등의 온갇 비슷한 단어들이 생겨났다.</div>
+            </div>
+        </section>
 
-        <div class="section" id="request">
-            <h2>단어 추가 요청 및 기준</h2>
+        <!-- 별명 -->
+        <section class="section" id="nickname">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <h2 class="section-title">별명</h2>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">디바룽보</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">어리석고 멍청하거나 못난짓을 하는 디룽지를 욕하거나 비난하여 이르는 말.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">똥룽지</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">똥과 디룽지의 합성어이며 디룽지를 놀리기 위해 사용되는 별명.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">똥봉지</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">똥과 봉지의 합성어. 디룽지가 똥을 싸는 봉지를 칭한다.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">룽덩이</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지의 엉덩이.<br>놀림, 조롱거리 따위로 사용되며 평소 냄새나고 통통한 것으로 묘사됨.</div>
+            </div>
+        </section>
+
+        <!-- 게임 -->
+        <section class="section" id="game">
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <h2 class="section-title">게임</h2>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">버스^기사</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지의 오버워치 티어를 올려주는 존재.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">벽수면^땅힐밴</span>
+                    <span class="type-badge">형용사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">오버워치 캐릭터 아나의 스킬인 수면, 힐밴을 적이 아닌 벽 또는 땅에 사용하는 행위.</div>
+            </div>
+        </section>
+
+        <!-- 인물 관계 -->
+        <section class="section" id="relation">
+            <div class="section-header">
+                <span class="section-num">05</span>
+                <h2 class="section-title">인물 관계</h2>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">용복이</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지 피셜 디룽지의 남편.<br>실제 결혼 선언을 한 적이 있다.</div>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">자듀</span>
+                    <span class="type-badge">명사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">디룽지의 현 여자친구를 칭하는 말.<br><del>이론상 존재할 수 있으나 현실에서 존재할 수 없다.</del></div>
+            </div>
+        </section>
+
+        <!-- 행동 특성 -->
+        <section class="section" id="behavior">
+            <div class="section-header">
+                <span class="section-num">06</span>
+                <h2 class="section-title">행동 특성</h2>
+            </div>
+
+            <div class="entry">
+                <div class="word-row">
+                    <span class="word">룽룽하다</span>
+                    <span class="type-badge">형용사</span>
+                    <button class="copy-btn">복사</button>
+                </div>
+                <div class="desc">상황 판단 없이 가볍고 둔하게 행동하여, 보는 사람에게 답답함과 허탈감을 유발하는 태도.</div>
+            </div>
+        </section>
+
+        <!-- 단어 추가 요청 -->
+        <section class="section" id="request">
+            <div class="section-header">
+                <span class="section-num">07</span>
+                <h2 class="section-title">단어 추가 요청 및 기준</h2>
+            </div>
             <div class="info-box">
                 <p>디룽지 사전에 새로운 단어를 추가하고 싶으신가요? 아래 <strong>등재 기준</strong>을 확인하신 후 요청해 주세요!</p>
                 <ul class="criteria-list">
@@ -365,12 +817,16 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
                     <li><strong>독창성:</strong> 디룽지 방송만의 고유한 맥락이나 의미를 담고 있어야 합니다.</li>
                     <li><strong>금지 사항:</strong> 디룽지님이 금지하신 단어는 추가가 불가능 합니다.</li>
                 </ul>
-                <a href="https://cafe.naver.com/diloongzi1102/278" target="_blank" class="request-link-btn">글 댓글로 단어 추가 요청하기 (디룽지 팬카페 글)</a>
+                <a href="https://cafe.naver.com/diloongzi1102/278" target="_blank" class="request-btn">글 댓글로 단어 추가 요청하기 (디룽지 팬카페 글)</a>
             </div>
-        </div>
+        </section>
 
-        <div class="contributors section" id="contributors">
-            <h2>기여자</h2>
+        <!-- 기여자 -->
+        <section class="section" id="contributors">
+            <div class="section-header">
+                <span class="section-num">08</span>
+                <h2 class="section-title">기여자</h2>
+            </div>
             <div class="info-box">
                 <p>본 문서는 공동 기여로 작성되었으며. 사이트 코드 작성과 일부 기여는 AI를 인용했습니다.</p>
                 <ul>
@@ -378,8 +834,8 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
                     <li>하루 - 사이트 운영 및 일부 낱말 추가 및 수정</li>
                 </ul>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 </div>
 
 <footer>
@@ -389,129 +845,126 @@ footer { text-align: center; padding: 30px; color: var(--text-sub); font-size: 1
 
 <script>
 /* 1. 테마 토글 */
-const themeToggle = document.getElementById('theme-toggle');
+const themeBtn = document.getElementById('theme-toggle');
 const body = document.body;
-function updateThemeButton() {
-    themeToggle.textContent = body.classList.contains('dark-mode') ? '라이트모드' : '다크모드';
+
+function applyTheme(dark) {
+    body.classList.toggle('dark', dark);
+    themeBtn.textContent = dark ? '☀️' : '🌙';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
 }
-if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-updateThemeButton();
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-    updateThemeButton();
-});
+
+const savedDark = localStorage.getItem('theme') === 'dark';
+applyTheme(savedDark);
+
+themeBtn.addEventListener('click', () => applyTheme(!body.classList.contains('dark')));
 
 /* 2. 복사 기능 */
 document.addEventListener('click', e => {
-    if (e.target.classList.contains('copy-btn')) {
+    if (!e.target.classList.contains('copy-btn')) return;
+    const wordEl = e.target.closest('.word-row').querySelector('.word');
+    const text = (wordEl.dataset.origin || wordEl.textContent).replace(/\^/g, ' ');
 
-        const text = e.target.previousElementSibling.textContent.replace(/\^/g, " ");
-
-        const el = document.createElement("textarea");
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
+    navigator.clipboard.writeText(text).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
         document.execCommand('copy');
-        document.body.removeChild(el);
+        document.body.removeChild(ta);
+    });
 
-        const old = e.target.textContent;
-        e.target.textContent = "완료!";
-        setTimeout(() => e.target.textContent = old, 1000);
-    }
+    e.target.classList.add('done');
+    const prev = e.target.textContent;
+    e.target.textContent = '완료!';
+    setTimeout(() => {
+        e.target.textContent = prev;
+        e.target.classList.remove('done');
+    }, 1200);
 });
 
-/* 3. 목차 제어 (정교한 스크롤 스파이) */
-const sections = document.querySelectorAll('.section');
+/* 3. 목차 스크롤 스파이 */
+const sections = document.querySelectorAll('section.section');
 const navLinks = document.querySelectorAll('.toc-link');
-let isManualScrolling = false;
+let manualScroll = false;
 
 navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', e => {
         e.preventDefault();
-        isManualScrolling = true;
+        manualScroll = true;
         navLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-        const target = document.querySelector(this.getAttribute('href'));
-        window.scrollTo({ top: target.offsetTop - 85, behavior: 'smooth' });
-        setTimeout(() => { isManualScrolling = false; }, 800);
+        link.classList.add('active');
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) window.scrollTo({ top: target.offsetTop - 90, behavior: 'smooth' });
+        setTimeout(() => { manualScroll = false; }, 900);
     });
 });
 
 window.addEventListener('scroll', () => {
-    if (isManualScrolling) return;
-    let current = "";
-    const scrollPos = window.scrollY + (window.innerHeight / 2.2);
-
-    sections.forEach(s => {
-        if (scrollPos >= s.offsetTop) {
-            current = s.getAttribute('id');
-        }
+    if (manualScroll) return;
+    let current = '';
+    const mid = window.scrollY + window.innerHeight / 2.5;
+    sections.forEach(s => { if (mid >= s.offsetTop) current = s.id; });
+    const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 20;
+    if (atBottom) current = 'contributors';
+    navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
     });
+}, { passive: true });
 
-    const isBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20;
-    if (isBottom) current = "contributors";
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
-    });
-});
-
-/* 4. 실시간 검색 + 단어 개수 + 검색 결과 없음 (기능 추가) */
+/* 4. 실시간 검색 */
 const searchInput = document.getElementById('search-input');
 const entries = document.querySelectorAll('.entry');
+const countNum = document.getElementById('count-num');
 const wordCountDiv = document.getElementById('word-count');
 const noResults = document.getElementById('no-results');
 
-searchInput.addEventListener('input', function() {
+// Init data-origin
+entries.forEach(entry => {
+    const wordEl = entry.querySelector('.word');
+    const descEl = entry.querySelector('.desc');
+    if (wordEl) wordEl.dataset.origin = wordEl.innerHTML;
+    if (descEl) descEl.dataset.origin = descEl.innerHTML;
+});
+
+searchInput.addEventListener('input', function () {
     const q = this.value.toLowerCase().trim();
-    let visibleCount = 0;
+    let visible = 0;
 
     entries.forEach(entry => {
-        const wordBox = entry.querySelector('.word');
-        const descBox = entry.querySelector('.desc');
-        if(!wordBox.dataset.origin) wordBox.dataset.origin = wordBox.innerHTML;
-        if(!descBox.dataset.origin) descBox.dataset.origin = descBox.innerHTML;
+        const wordEl = entry.querySelector('.word');
+        const descEl = entry.querySelector('.desc');
+        const text = entry.textContent.toLowerCase();
 
-        if (entry.textContent.toLowerCase().includes(q) || q === "") {
-            entry.style.display = 'block';
-            visibleCount++;
+        if (!q || text.includes(q)) {
+            entry.style.display = '';
+            visible++;
+            if (q) {
+                const safe = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const rx = new RegExp(`(${safe})`, 'gi');
+                if (wordEl) wordEl.innerHTML = wordEl.dataset.origin.replace(rx, '<span class="highlight">$1</span>');
+                if (descEl) descEl.innerHTML = descEl.dataset.origin.replace(rx, '<span class="highlight">$1</span>');
+            } else {
+                if (wordEl) wordEl.innerHTML = wordEl.dataset.origin;
+                if (descEl) descEl.innerHTML = descEl.dataset.origin;
+            }
+        } else {
+            entry.style.display = 'none';
+        }
+    });
 
-            if(q !== "") {
-    const safeQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${safeQuery})`, 'gi');
-    wordBox.innerHTML = wordBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
-    descBox.innerHTML = descBox.dataset.origin.replace(regex, '<span class="highlight">$1</span>');
-} else {
-    wordBox.innerHTML = wordBox.dataset.origin;
-    descBox.innerHTML = descBox.dataset.origin;
-}
-} else {
-    entry.style.display = 'none';
-}
+    countNum.textContent = visible;
+    wordCountDiv.innerHTML = q
+        ? `검색 결과 <strong id="count-num">${visible}</strong>개`
+        : `총 <strong id="count-num">${visible}</strong>개 단어`;
+    noResults.classList.toggle('show', visible === 0 && q !== '');
 });
 
-    // 단어 개수 표시 업데이트
-    if (q === "") {
-        wordCountDiv.innerHTML = `총 <span id="count-num">${visibleCount}</span>개 단어`;
-    } else {
-        wordCountDiv.innerHTML = `검색 결과 <span id="count-num">${visibleCount}</span>개`;
-    }
+/* 5. 초기 개수 */
+wordCountDiv.innerHTML = `총 <strong id="count-num">${entries.length}</strong>개 단어`;
 
-    // 검색 결과 없음 메시지
-    if (visibleCount === 0 && q !== "") {
-        noResults.classList.add('show');
-    } else {
-        noResults.classList.remove('show');
-    }
-});
-
-/* 초기 단어 개수 설정 */
-wordCountDiv.innerHTML = `총 <span id="count-num">${entries.length}</span>개 단어`;
-
-document.getElementById('update-date').textContent = "최종 수정일: " + document.lastModified;
+/* 6. 수정일 */
+document.getElementById('update-date').textContent = '최종 수정일: ' + document.lastModified;
 </script>
-
 </body>
 </html>
