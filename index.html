@@ -25,7 +25,7 @@
             --border: #e2e8f0;
             --header-bg: rgba(255, 255, 255, 0.8);
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --highlight: #fef08a;
+            --highlight: #d8f3df;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -560,6 +560,84 @@
             color: var(--primary);
         }
 
+        /* ===== [사전형 리디자인 레이어] ===== */
+        :root {
+            --primary: #49a866;
+            --primary-hover: #378b55;
+            --accent: #8bd39c;
+            --bg-main: #f7fbf8;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --text-main: #20352a;
+            --text-sub: #64766b;
+            --border: #dcebe1;
+            --header-bg: rgba(255, 255, 255, .94);
+            --shadow: 0 12px 32px rgba(48, 117, 72, .10);
+            --highlight: #d8f3df;
+        }
+        body.dark-mode {
+            --primary: #72a985;
+            --primary-hover: #609472;
+            --accent: #a2cbaa;
+            --bg-main: #17151d;
+            --bg-card: #211e29;
+            --bg-sidebar: #211e29;
+            --text-main: #f7f2eb;
+            --text-sub: #aaa0b4;
+            --border: #393342;
+            --header-bg: rgba(23, 21, 29, .9);
+            --highlight: #6a4f1d;
+        }
+        body { letter-spacing: -.015em; }
+        header { height: 76px; padding: 0 max(2rem, calc((100vw - 1240px)/2)); box-shadow: 0 1px 0 var(--border); }
+        .logo-container::after { content: 'DILOONGJI DICTIONARY'; color: var(--text-sub); font-size: .7rem; letter-spacing: .12em; font-weight: 700; padding-left: 12px; border-left: 1px solid var(--border); }
+        .logo-img { height: 42px; }
+        .nav-btn { border-radius: 999px; padding: 8px 14px; }
+        .main-container { max-width: 1240px; margin-top: 76px; padding: 2.5rem 2rem; gap: 2.5rem; }
+        .sidebar { top: 104px; border-radius: 16px; padding: 1rem; height: calc(100vh - 136px); }
+        .sidebar h3 { padding: .8rem .75rem 1rem; margin-bottom: .65rem; color: var(--text-main); border-bottom: 1px solid var(--border); }
+        .toc-link { padding: 10px 12px; font-size: .93rem; }
+        .toc-link:hover, .toc-link.active { transform: none; background: color-mix(in srgb, var(--primary) 11%, transparent); color: var(--primary); font-weight: 700; }
+        .hero-section { position: relative; padding: 3.3rem 2rem 2rem; border-radius: 18px; text-align: left; overflow: hidden; background: radial-gradient(circle at 85% 0%, rgba(73,168,102,.14), transparent 34%), var(--bg-card); }
+        .hero-section::after { content: '가'; position: absolute; right: 5%; top: -20px; font-family: Georgia, serif; font-size: 14rem; line-height: 1; color: var(--primary); opacity: .045; pointer-events: none; }
+        .eyebrow { position: relative; z-index: 1; color: var(--primary); font-size: .7rem; font-weight: 800; letter-spacing: .12em; margin-bottom: 1rem; }
+        .eyebrow-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 5px; }
+        .hero-title { position: relative; z-index: 1; font-family: Georgia, 'Noto Sans KR', serif; font-size: clamp(2.15rem, 5vw, 3.4rem); letter-spacing: -.08em; margin-bottom: .7rem; background: none; -webkit-text-fill-color: initial; color: var(--text-main); }
+        .hero-desc { position: relative; z-index: 1; max-width: 600px; margin: 0 0 1.8rem; font-size: .98rem; }
+        .search-wrapper { z-index: 2; max-width: none; margin: 0; }
+        .search-input { border-radius: 11px; background: var(--bg-main); padding: 15px 82px 15px 46px; border: 1px solid var(--border); }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 13%, transparent); }
+        .search-icon { left: 17px; }
+        .search-wrapper kbd { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; color: var(--text-sub); font-size: .75rem; background: var(--bg-card); }
+        .search-clear { display: none; position: absolute; right: 52px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: var(--text-sub); cursor: pointer; }
+        .search-clear.visible { display: block; }
+        .search-meta { display: flex; align-items: center; gap: 12px; margin-top: .8rem; }
+        .stats-badge { margin: 0; border-radius: 5px; background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); font-size: .78rem; padding: 4px 9px; }
+        .search-hint { color: var(--text-sub); font-size: .78rem; }
+        .search-hint i { color: var(--accent); margin-right: 3px; }
+        .alphabet-filter { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+        .alphabet-btn { border: 1px solid var(--border); color: var(--text-sub); background: var(--bg-card); border-radius: 6px; min-width: 30px; height: 29px; font-size: .78rem; cursor: pointer; transition: var(--transition); }
+        .alphabet-btn:hover, .alphabet-btn.active { color: white; background: var(--primary); border-color: var(--primary); }
+        .legend-box { border-radius: 13px; padding: 1rem 1.25rem; box-shadow: none; }
+        .legend-item { display: inline-flex; margin: 0 1.25rem 0 0; gap: 8px; }
+        .legend-indicator { width: 28px; height: 28px; border-radius: 7px; font-size: .75rem; }
+        .section { margin-bottom: 3rem; }
+        .section-header { margin-bottom: 1rem; padding-bottom: .7rem; border-bottom: 1px solid var(--border); }
+        .section-header h2 { font-size: 1.08rem; }
+        .section-header::after { content: 'DICTIONARY'; margin-left: auto; font-size: .65rem; letter-spacing: .12em; color: var(--text-sub); }
+        .entry-card { border-radius: 12px; padding: 1.25rem 1.4rem; margin-bottom: .7rem; box-shadow: 0 2px 0 rgba(0,0,0,.02); }
+        .entry-card:hover { transform: translateX(4px); box-shadow: var(--shadow); }
+        .entry-header { margin-bottom: .55rem; }
+        .word-group { gap: 8px; }
+        .word-text { font-family: Georgia, 'Noto Sans KR', serif; font-size: 1.45rem; letter-spacing: -.06em; }
+        .word-type { border: 1px solid var(--border); background: transparent; font-size: .72rem; padding: 2px 7px; }
+        .word-text::before { content: '•'; color: var(--accent); font-family: sans-serif; font-size: .85rem; margin-right: 7px; vertical-align: .16em; }
+        .entry-desc { font-size: .94rem; color: var(--text-sub); padding-left: 18px; }
+        .copy-btn { border-radius: 6px; padding: 5px 9px; }
+        .info-card { border-radius: 14px; box-shadow: none; }
+        footer { padding: 3rem 2rem; margin-top: 2rem; }
+        @media (max-width: 768px) { .logo-container::after { display: none; } .main-container { margin-top: 132px; } .hero-section { padding: 2.2rem 1.2rem 1.3rem; } .hero-section::after { font-size: 9rem; } .legend-item { display: flex; margin-bottom: .7rem; } .section-header::after { display: none; } .entry-card:hover { transform: none; } }
+
         /* ===== [반응형] ===== */
         @media (max-width: 1024px) {
             .main-container {
@@ -642,13 +720,36 @@
         <!-- 메인 콘텐츠 -->
         <main class="content-area">
             <section class="hero-section">
+                <div class="eyebrow"><span class="eyebrow-dot"></span> DILOONGJI COMMUNITY DICTIONARY</div>
                 <h1 class="hero-title">디룽지 사전</h1>
                 <p class="hero-desc">디룽지 사전에 오신 것을 환영합니다! 시청자분들이 방송을 더 즐겁게 보실 수 있도록 유행어를 정리한 공간입니다.</p>
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-input" class="search-input" placeholder="단어 또는 설명 검색...">
+                    <input type="text" id="search-input" class="search-input" placeholder="단어, 뜻, 예시로 검색..." aria-label="단어 검색">
+                    <button class="search-clear" id="search-clear" type="button" aria-label="검색어 지우기"><i class="fas fa-xmark"></i></button>
+                    <kbd>/</kbd>
                 </div>
-                <div id="word-count" class="stats-badge">총 20개 단어</div>
+                <div class="search-meta">
+                    <div id="word-count" class="stats-badge">단어 수 계산 중...</div>
+                    <span class="search-hint"><i class="fas fa-lightbulb"></i> 원하는 단어를 찾아보세요</span>
+                </div>
+                <div class="alphabet-filter" aria-label="초성으로 찾기">
+                    <button class="alphabet-btn active" data-letter="all">전체</button>
+                    <button class="alphabet-btn" data-letter="ㄱ">ㄱ</button>
+                    <button class="alphabet-btn" data-letter="ㄴ">ㄴ</button>
+                    <button class="alphabet-btn" data-letter="ㄷ">ㄷ</button>
+                    <button class="alphabet-btn" data-letter="ㄹ">ㄹ</button>
+                    <button class="alphabet-btn" data-letter="ㅁ">ㅁ</button>
+                    <button class="alphabet-btn" data-letter="ㅂ">ㅂ</button>
+                    <button class="alphabet-btn" data-letter="ㅅ">ㅅ</button>
+                    <button class="alphabet-btn" data-letter="ㅇ">ㅇ</button>
+                    <button class="alphabet-btn" data-letter="ㅈ">ㅈ</button>
+                    <button class="alphabet-btn" data-letter="ㅊ">ㅊ</button>
+                    <button class="alphabet-btn" data-letter="ㅋ">ㅋ</button>
+                    <button class="alphabet-btn" data-letter="ㅌ">ㅌ</button>
+                    <button class="alphabet-btn" data-letter="ㅍ">ㅍ</button>
+                    <button class="alphabet-btn" data-letter="ㅎ">ㅎ</button>
+                </div>
             </section>
 
             <!-- 범례 설명 -->
@@ -750,28 +851,42 @@
                         <div class="word-group"><span class="word-text">디하</span><span class="word-type">[명사]</span></div>
                         <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
                     </div>
-                    <div class="entry-desc">디룽지의 방송 인사법.<br>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
+                    <div class="entry-desc">디룽지의 방송 인사법.</div>
+                </div>
+                                <div class="entry-card">
+                    <div class="entry-header">
+                        <div class="word-group"><span class="word-text">룽하</span><span class="word-type">[명사]</span></div>
+                        <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
+                    </div>
+                    <div class="entry-desc">디룽지의 또 다른 방송 인사법.</div>
                 </div>
                 <div class="entry-card">
                     <div class="entry-header">
                         <div class="word-group"><span class="word-text">디바</span><span class="word-type">[명사]</span></div>
                         <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
                     </div>
-                    <div class="entry-desc">디룽지의 방종 인사법.<br>하지만 디룽지 시청자들은 해당 인사법을 거의 사용하지 않는다.</div>
+                    <div class="entry-desc">디룽지의 방종 인사법.</div>
+                </div>
+                                <div class="entry-card">
+                    <div class="entry-header">
+                        <div class="word-group"><span class="word-text">룽바</span><span class="word-type">[명사]</span></div>
+                        <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
+                    </div>
+                    <div class="entry-desc">디룽지의 또 다른 방종 인사법.</div>
                 </div>
                 <div class="entry-card">
                     <div class="entry-header">
                         <div class="word-group"><span class="word-text">똥하</span><span class="word-type">[명사]</span></div>
                         <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
                     </div>
-                    <div class="entry-desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방송 인사법인 디하를 합쳐 만든 방송 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디하보다 더 많이 쓴다.<br>변하, 끙하 등의 온갖 비슷한 단어들이 생겨났다.</div>
+                    <div class="entry-desc">시청자들이 디룽지의 별명 중 하나인 똥룽지를 이용해 만든 방송 인사법.<br>변하, 끙하 등의 파생된 온갖 인사법이 생겨났다.</div>
                 </div>
                 <div class="entry-card">
                     <div class="entry-header">
                         <div class="word-group"><span class="word-text">똥바</span><span class="word-type">[명사]</span></div>
                         <button class="copy-btn"><i class="far fa-copy"></i> 복사</button>
                     </div>
-                    <div class="entry-desc">시청자들이 디룽지의 별명 중 하나인 똥룽지와 디룽지의 방종 인사법인 디바를 합쳐 만든 방종 인사법.<br>사실상 디룽지 시청자들은 해당 인사법을 디바보다 더 많이 쓴다.<br>변바, 끙바 등의 온갖 비슷한 단어들이 생겨났다.</div>
+                    <div class="entry-desc">시청자들이 디룽지의 별명 중 하나인 똥룽지를 이용해 만든 방종 인사법.<br>변바, 끙바 등의 파생된 온갖 인사법들이 생겨났다.</div>
                 </div>
             </div>
 
@@ -905,7 +1020,7 @@
                     <h2>단어 추가 요청 및 기준</h2>
                 </div>
                 <div class="info-card">
-                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">디룽지 사전에 새로운 단어를 추가하고 싶으신가요?</p>
+                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">디룽지 사전에 새로운 단어를 추가하거나 수정하고 싶으신가요?</p>
                     <p style="color: var(--text-sub);">아래 <strong>등재 기준</strong>을 확인하신 후 요청해 주세요!</p>
                     <ul class="criteria-list">
                         <li class="criteria-item">
@@ -926,7 +1041,7 @@
                         </li>
                     </ul>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLScpKBCqPi0ODiDL0dqUi5lrNsFndk-oyfJxO4RBaWSFEY1aQQ/viewform?usp=publish-editor" target="_blank" class="request-btn">
-                        <i class="fas fa-comment-dots"></i> 단어 추가 요청하기
+                        <i class="fas fa-comment-dots"></i> 단어 추가·수정 요청하기
                     </a>
                 </div>
             </div>
@@ -1089,9 +1204,24 @@
         const entryCards = document.querySelectorAll('.entry-card');
         const wordCountBadge = document.getElementById('word-count');
         const noResults = document.getElementById('no-results');
+        // 단어 수는 HTML 안의 .entry-card 개수에서 자동으로 계산됩니다.
+        // 새 단어를 추가할 때 같은 entry-card 구조만 복사하면 숫자는 자동으로 반영됩니다.
+        wordCountBadge.textContent = `총 ${entryCards.length}개 단어`;
+
+        let activeLetter = 'all';
+        const alphabetButtons = document.querySelectorAll('.alphabet-btn');
+        const clearSearch = document.getElementById('search-clear');
+
+        function getInitial(word) {
+            const code = word.trim().charCodeAt(0);
+            const initials = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+            if (code >= 0xAC00 && code <= 0xD7A3) return initials[Math.floor((code - 0xAC00) / 588)];
+            return word.trim().charAt(0).toUpperCase();
+        }
 
         searchInput.addEventListener('input', function() {
             const query = this.value.toLowerCase().trim();
+            clearSearch.classList.toggle('visible', query.length > 0);
             let visibleCount = 0;
 
             entryCards.forEach(card => {
@@ -1102,7 +1232,9 @@
                 if (!descEl.dataset.origin) descEl.dataset.origin = descEl.innerHTML;
 
                 const text = card.textContent.toLowerCase();
-                const isMatch = text.includes(query);
+                const initial = getInitial(wordEl.textContent);
+                const matchesLetter = activeLetter === 'all' || initial === activeLetter;
+                const isMatch = text.includes(query) && matchesLetter;
 
                 if (isMatch) {
                     card.style.display = 'block';
@@ -1127,9 +1259,40 @@
             
             // 섹션 가시성 제어
             sections.forEach(section => {
-                const hasVisibleCards = Array.from(section.querySelectorAll('.entry-card')).some(c => c.style.display !== 'none');
-                section.style.display = hasVisibleCards || query === "" ? 'block' : 'none';
+                const cardsInSection = Array.from(section.querySelectorAll('.entry-card'));
+                // 요청/기여자처럼 단어 카드가 없는 안내 섹션은 항상 표시합니다.
+                if (cardsInSection.length === 0) {
+                    section.style.display = 'block';
+                    return;
+                }
+                const hasVisibleCards = cardsInSection.some(c => c.style.display !== 'none');
+                section.style.display = hasVisibleCards ? 'block' : 'none';
             });
+        });
+
+        alphabetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                activeLetter = button.dataset.letter;
+                alphabetButtons.forEach(item => item.classList.toggle('active', item === button));
+                searchInput.dispatchEvent(new Event('input'));
+            });
+        });
+
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.focus();
+            searchInput.dispatchEvent(new Event('input'));
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === '/' && document.activeElement !== searchInput) {
+                event.preventDefault();
+                searchInput.focus();
+            }
+            if (event.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+            }
         });
 
         /* 초기화 */
